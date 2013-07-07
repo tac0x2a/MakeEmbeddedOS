@@ -5,7 +5,7 @@
 /** 1文字送信  */
 int putc(unsigned char c)
 {
-	if( c != '\n' ){
+	if( c == '\n' ){
 		serial_send_byte(SERIAL_DEFAULT_DEVICE, '\r');
 	}
 	return serial_send_byte(SERIAL_DEFAULT_DEVICE, c);
