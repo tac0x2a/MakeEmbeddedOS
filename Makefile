@@ -18,7 +18,7 @@ H8WRITE = $(BINDIR)/h8write
 # FreeBSD-4.x:/dev/cuaaX, FreeBSD-6.x:/dev/cuadX, FreeBSD(USB):/dev/cuaUx
 # Linux:/dev/ttySx, Linux(USB):/dev/ttyUSBx, Windows:comX
 #H8WRITE_SERDEV = /dev/cuad0
-H8WRITE_SERDEV = /dev/ttySx
+H8WRITE_SERDEV = /dev/ttyUSB0
 
 OBJS  = vector.o startup.o main.o
 OBJS += lib.o serial.o
@@ -56,7 +56,7 @@ $(TARGET).mot :	$(TARGET)
 image :		$(TARGET).mot
 
 write :		$(TARGET).mot
-		$(H8WRITE) -3069 -f20 $(TARGET).mot $(H8WRITE_SERDEV)
+		sudo $(H8WRITE) -3069 -f20 $(TARGET).mot $(H8WRITE_SERDEV)
 
 clean :
 		rm -f $(OBJS) $(TARGET) $(TARGET).elf $(TARGET).mot
