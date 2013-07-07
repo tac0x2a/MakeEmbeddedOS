@@ -1,0 +1,43 @@
+OUTPUT_FORMAT("elf32-h8300")
+OUTPUT_ARCH(h8300h)
+ENTRY("_start")
+
+/* メモリマップ */
+SECTIONS
+{
+				/* メモリの先頭番地から配置 */
+				. = 0x0;
+
+				/* 割り込みベクタ */
+				.vectors : {
+							vector.o(.data)
+				}
+
+				/* テキスト領域
+				 * コンパイル後の機械語コードが配置される
+				 */
+				.text : {
+							*(.text)
+				}
+
+				/* read-only データ */
+				.rodata : {
+								*(.strings)
+								*(.rodata)
+								*(.rodata.*)
+				}
+
+				/* データ領域
+				 * 変数などが配置される
+				 */
+				.data : {
+							*(.data)
+				}
+
+				/* BSS領域 */
+				.bss : {
+						 *(.bss)
+						 *(COMMON)
+				}
+
+} /* end of SECTIONS */
