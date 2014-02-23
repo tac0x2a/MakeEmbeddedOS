@@ -4,7 +4,7 @@
 通常動作時 ``{1,2,3,4} = {ON,OFF,ON,OFF}``
 
 
-# minicomのについて
+# minicomについて
 
 設定ファイル
 ``etc/minirc.dfl`` を ``/etc/minicom/`` へコピーする．
