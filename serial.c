@@ -4,18 +4,18 @@
 #define SERIAL_SCI_NUM 3
 
 #define H8_3069F_SCI0 ((volatile struct h8_3069f_sci *)0xffffb0)
-#define H8_3069F_SCI1 ((volatile struct h8_3069f_sci *)0xffffb8)
+#define H8_3069F_SCI1 ((volatile struct h8_3069f_sci *)0xffffb8) // ボードのシリアルコネクタはここにつながっている
 #define H8_3069F_SCI2 ((volatile struct h8_3069f_sci *)0xffffc0)
 
 /** SCIの各種レジスタの定義 */
 struct h8_3069f_sci {
-  volatile uint8 smr;
-  volatile uint8 brr;
-  volatile uint8 scr;
-  volatile uint8 tdr;
-  volatile uint8 ssr;
-  volatile uint8 rdr;
-  volatile uint8 scmr;
+  volatile uint8 smr; // シリアル通信モードの設定
+  volatile uint8 brr; // ボーレートの設定
+  volatile uint8 scr;	// 送受信の有効/無効
+  volatile uint8 tdr;	// 送信したい1バイトを書き込む
+  volatile uint8 ssr;	// 送信/受信完了などを表す
+  volatile uint8 rdr;	// 受信した1バイトを読み出す
+  volatile uint8 scmr;// ?
 };
 
 /* SMRの各ビットの定義 */
