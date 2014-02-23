@@ -25,7 +25,7 @@ OBJS += lib.o serial.o
 
 TARGET = kzload
 
-CFLAGS = -Wall -mh -nostdinc -nostdlib -fno-builtin
+CFLAGS = -Wall -mh -nostdinc -nostdlib -fno-builtin -std=c99
 #CFLAGS += -mint32 # intを32ビットにすると掛算／割算ができなくなる
 CFLAGS += -I.
 #CFLAGS += -g
