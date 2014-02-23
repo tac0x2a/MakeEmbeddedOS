@@ -2,6 +2,9 @@
 #include "serial.h"
 #include "lib.h"
 
+/* 補助関数群 */
+static char* format_int2hex(char* dst, unsigned long value, int column); /* 整数を16進数表記へ変換する */
+
 /** 1文字送信  */
 int putc(unsigned char c)
 {
@@ -19,6 +22,44 @@ int puts(unsigned char *str)
 	}
 	return 0;
 }
+
+/*
+	 整数を指定した桁数の16進数の文字列へ変換する．
+	 dst:    出力先バッファ
+	 value:  変換したい整数
+	 column: 変換したい桁数
+	 @return dstに格納された文字列の開始アドレス
+*/
+static char* format_int2hex(char* dst, unsigned long value, int column){
+
+	dst[column] = '\0';
+	memset(dst, ' ', column);
+
+	if( column <= 0 ) {
+		return dst;
+	}
+	if( value  == 0 ){
+		 dst[column-1] = '0';
+		 return dst;
+	}
+
+	int c = column -1;
+	while( value > 0 && c >= 0 ) {
+		dst[c] = "0123456789abcdef"[ value & 0xf ];
+		value >>= 4;
+		c--;
+	}
+	return dst;
+}
+
+/* 16進数で整数値を表示する */
+int putxval(unsigned long value, int column){
+	char buf[16];
+	char *res = format_int2hex(buf, value, column);
+	puts(res);
+	return 0;
+}
+
 
 void * memset(void *s, int c, size_t n){
 	for( int i = 0; i < n; i++ ){

@@ -6,6 +6,9 @@ typedef long size_t;
 int putc(unsigned char c);   /** 1文字送信  */
 int puts(unsigned char *str);/** 文字列送信 */
 
+
+int putxval(unsigned long value, int column); /* 16進数で整数値を表示する */
+
 void * memset(void *s, int c, size_t n);
 void * memcpy(void *dest, const void *src, size_t n);
 int memcmp(const void *s1, const void *s2, size_t n);
