@@ -24,7 +24,10 @@
 * セクションの先頭に ``ヘッダ`` として，そのセクションの情報を保持している．
 * この本では [ELF(Executable and Linkable Format)](http://ja.wikipedia.org/wiki/Executable_and_Linkable_Format)  を扱ってる．
 * ``readelf`` コマンドで解析できるよ．
-> %readelf -a <解析したい実行形式ファイル>
+
+```
+%readelf -a <解析したい実行形式ファイル>
+```
 
 * ``.text`` セクションは H8/3069F の内蔵FlashROMがマッピングされているアドレスになっているため，CPUはROMから命令を読み込んで実行している
 * ``.data`` や ``.bss`` が ROM上にマッピングされていると，変数を読めるけど変更できない！ みたいなことになる．
@@ -38,6 +41,7 @@
 .vectors : {
     vector.o(.data)
 }
+/* これで， vector.o内のvectorsを.dataに置く，って意味になる */
 ```
-これで， vector.o内のvectorsを.dataに置く，って意味になるのかな．
+
 * Flashに書き込むべきデータの書き込み先アドレスが，RAM上になってると ``Address is out of range. Skipping..`` みたいなエラーが出る．
