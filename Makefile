@@ -18,7 +18,9 @@ H8WRITE = $(BINDIR)/h8write
 # FreeBSD-4.x:/dev/cuaaX, FreeBSD-6.x:/dev/cuadX, FreeBSD(USB):/dev/cuaUx
 # Linux:/dev/ttySx, Linux(USB):/dev/ttyUSBx, Windows:comX
 #H8WRITE_SERDEV = /dev/cuad0
-H8WRITE_SERDEV = /dev/ttyUSB0
+#H8WRITE_SERDEV = /dev/ttyUSB0
+H8WRITE_SERDEV = /dev/cu.PL2303-* #for Mac
+
 
 OBJS  = vector.o startup.o main.o
 OBJS += lib.o serial.o
