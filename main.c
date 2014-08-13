@@ -34,8 +34,6 @@ int main(void)
 {
 	init();
 
-	serial_init(SERIAL_DEFAULT_DEVICE);
-
 	puts( "fuga!\n");
 	putxval(fuga, 4); puts("\n");
 	fuga++;
