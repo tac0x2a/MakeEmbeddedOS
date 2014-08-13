@@ -4,21 +4,21 @@
 #define SERIAL_SCI_NUM 3
 
 #define H8_3069F_SCI0 ((volatile struct h8_3069f_sci *)0xffffb0)
-#define H8_3069F_SCI1 ((volatile struct h8_3069f_sci *)0xffffb8) // ¥Ü¡¼¥É¤Î¥·¥ê¥¢¥ë¥³¥Í¥¯¥¿¤Ï¤³¤³¤Ë¤Ä¤Ê¤¬¤Ã¤Æ¤¤¤ë
+#define H8_3069F_SCI1 ((volatile struct h8_3069f_sci *)0xffffb8) // ãƒœãƒ¼ãƒ‰ã®ã‚·ãƒªã‚¢ãƒ«ã‚³ãƒã‚¯ã‚¿ã¯ã“ã“ã«ã¤ãªãŒã£ã¦ã„ã‚‹
 #define H8_3069F_SCI2 ((volatile struct h8_3069f_sci *)0xffffc0)
 
-/** SCI¤Î³Æ¼ï¥ì¥¸¥¹¥¿¤ÎÄêµÁ */
+/** SCIã®å„ç¨®ãƒ¬ã‚¸ã‚¹ã‚¿ã®å®šç¾© */
 struct h8_3069f_sci {
-  volatile uint8 smr; // ¥·¥ê¥¢¥ëÄÌ¿®¥â¡¼¥É¤ÎÀßÄê
-  volatile uint8 brr; // ¥Ü¡¼¥ì¡¼¥È¤ÎÀßÄê
-  volatile uint8 scr;	// Á÷¼õ¿®¤ÎÍ­¸ú/Ìµ¸ú
-  volatile uint8 tdr;	// Á÷¿®¤·¤¿¤¤1¥Ğ¥¤¥È¤ò½ñ¤­¹ş¤à
-  volatile uint8 ssr;	// Á÷¿®/¼õ¿®´°Î»¤Ê¤É¤òÉ½¤¹
-  volatile uint8 rdr;	// ¼õ¿®¤·¤¿1¥Ğ¥¤¥È¤òÆÉ¤ß½Ğ¤¹
+  volatile uint8 smr; // ã‚·ãƒªã‚¢ãƒ«é€šä¿¡ãƒ¢ãƒ¼ãƒ‰ã®è¨­å®š
+  volatile uint8 brr; // ãƒœãƒ¼ãƒ¬ãƒ¼ãƒˆã®è¨­å®š
+  volatile uint8 scr;	// é€å—ä¿¡ã®æœ‰åŠ¹/ç„¡åŠ¹
+  volatile uint8 tdr;	// é€ä¿¡ã—ãŸã„1ãƒã‚¤ãƒˆã‚’æ›¸ãè¾¼ã‚€
+  volatile uint8 ssr;	// é€ä¿¡/å—ä¿¡å®Œäº†ãªã©ã‚’è¡¨ã™
+  volatile uint8 rdr;	// å—ä¿¡ã—ãŸ1ãƒã‚¤ãƒˆã‚’èª­ã¿å‡ºã™
   volatile uint8 scmr;// ?
 };
 
-/* SMR¤Î³Æ¥Ó¥Ã¥È¤ÎÄêµÁ */
+/* SMRã®å„ãƒ“ãƒƒãƒˆã®å®šç¾© */
 #define H8_3069F_SCI_SMR_CKS_PER1  (0<<0)
 #define H8_3069F_SCI_SMR_CKS_PER4  (1<<0)
 #define H8_3069F_SCI_SMR_CKS_PER16 (2<<0)
@@ -30,25 +30,25 @@ struct h8_3069f_sci {
 #define H8_3069F_SCI_SMR_CHR    (1<<6)
 #define H8_3069F_SCI_SMR_CA     (1<<7)
 
-/* SCR¤Î³Æ¥Ó¥Ã¥È¤ÎÄêµÁ */
+/* SCRã®å„ãƒ“ãƒƒãƒˆã®å®šç¾© */
 #define H8_3069F_SCI_SCR_CKE0   (1<<0)
 #define H8_3069F_SCI_SCR_CKE1   (1<<1)
 #define H8_3069F_SCI_SCR_TEIE   (1<<2)
 #define H8_3069F_SCI_SCR_MPIE   (1<<3)
-#define H8_3069F_SCI_SCR_RE     (1<<4) /* ¼õ¿®Í­¸ú */
-#define H8_3069F_SCI_SCR_TE     (1<<5) /* Á÷¿®Í­¸ú */
-#define H8_3069F_SCI_SCR_RIE    (1<<6) /* ¼õ¿®³ä¹ş¤ßÍ­¸ú */
-#define H8_3069F_SCI_SCR_TIE    (1<<7) /* Á÷¿®³ä¹ş¤ßÍ­¸ú */
+#define H8_3069F_SCI_SCR_RE     (1<<4) /* å—ä¿¡æœ‰åŠ¹ */
+#define H8_3069F_SCI_SCR_TE     (1<<5) /* é€ä¿¡æœ‰åŠ¹ */
+#define H8_3069F_SCI_SCR_RIE    (1<<6) /* å—ä¿¡å‰²è¾¼ã¿æœ‰åŠ¹ */
+#define H8_3069F_SCI_SCR_TIE    (1<<7) /* é€ä¿¡å‰²è¾¼ã¿æœ‰åŠ¹ */
 
-/* SSR¤Î³Æ¥Ó¥Ã¥È¤ÎÄêµÁ */
+/* SSRã®å„ãƒ“ãƒƒãƒˆã®å®šç¾© */
 #define H8_3069F_SCI_SSR_MPBT   (1<<0)
 #define H8_3069F_SCI_SSR_MPB    (1<<1)
 #define H8_3069F_SCI_SSR_TEND   (1<<2)
 #define H8_3069F_SCI_SSR_PER    (1<<3)
 #define H8_3069F_SCI_SSR_FERERS (1<<4)
 #define H8_3069F_SCI_SSR_ORER   (1<<5)
-#define H8_3069F_SCI_SSR_RDRF   (1<<6) /* ¼õ¿®´°Î» */
-#define H8_3069F_SCI_SSR_TDRE   (1<<7) /* Á÷¿®´°Î» */
+#define H8_3069F_SCI_SSR_RDRF   (1<<6) /* å—ä¿¡å®Œäº† */
+#define H8_3069F_SCI_SSR_TDRE   (1<<7) /* é€ä¿¡å®Œäº† */
 
 static struct {
   volatile struct h8_3069f_sci *sci;
@@ -58,37 +58,37 @@ static struct {
   { H8_3069F_SCI2 },
 };
 
-/* ¥Ç¥Ğ¥¤¥¹½é´ü²½ */
+/* ãƒ‡ãƒã‚¤ã‚¹åˆæœŸåŒ– */
 int serial_init(int index)
 {
   volatile struct h8_3069f_sci *sci = regs[index].sci;
 
   sci->scr = 0;
   sci->smr = 0;
-  sci->brr = 64; /* 20MHz¤Î¥¯¥í¥Ã¥¯¤«¤é9600bps¤òÀ¸À®(25MHz¤Î¾ì¹ç¤Ï80¤Ë¤¹¤ë) */
-  sci->scr = H8_3069F_SCI_SCR_RE | H8_3069F_SCI_SCR_TE; /* Á÷¼õ¿®²ÄÇ½ */
+  sci->brr = 64; /* 20MHzã®ã‚¯ãƒ­ãƒƒã‚¯ã‹ã‚‰9600bpsã‚’ç”Ÿæˆ(25MHzã®å ´åˆã¯80ã«ã™ã‚‹) */
+  sci->scr = H8_3069F_SCI_SCR_RE | H8_3069F_SCI_SCR_TE; /* é€å—ä¿¡å¯èƒ½ */
   sci->ssr = 0;
 
   return 0;
 }
 
-/* Á÷¿®²ÄÇ½¤«¡© */
+/* é€ä¿¡å¯èƒ½ã‹ï¼Ÿ */
 int serial_is_send_enable(int index)
 {
   volatile struct h8_3069f_sci *sci = regs[index].sci;
   return (sci->ssr & H8_3069F_SCI_SSR_TDRE);
 }
 
-/* £±Ê¸»úÁ÷¿® */
+/* ï¼‘æ–‡å­—é€ä¿¡ */
 int serial_send_byte(int index, unsigned char c)
 {
   volatile struct h8_3069f_sci *sci = regs[index].sci;
 
-  /* Á÷¿®²ÄÇ½¤Ë¤Ê¤ë¤Ş¤ÇÂÔ¤Ä */
+  /* é€ä¿¡å¯èƒ½ã«ãªã‚‹ã¾ã§å¾…ã¤ */
   while (!serial_is_send_enable(index));
 
   sci->tdr = c;
-  sci->ssr &= ~H8_3069F_SCI_SSR_TDRE; /* Á÷¿®³«»Ï */
+  sci->ssr &= ~H8_3069F_SCI_SSR_TDRE; /* é€ä¿¡é–‹å§‹ */
 
   return 0;
 }
