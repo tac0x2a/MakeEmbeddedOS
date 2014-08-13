@@ -44,4 +44,50 @@
 /* これで， vector.o内のvectorsを.dataに置く，って意味になる */
 ```
 
-* Flashに書き込むべきデータの書き込み先アドレスが，RAM上になってると ``Address is out of range. Skipping..`` みたいなエラーが出る．
+```
+MEMORY
+{
+  /** 0xdeadから0xbeefを hoge というRW領域として命名する,みたいなかんじ */
+  hoge(rw) : o = 0xdead, l = 0xbeef
+
+  /**こんなかんじに重複してもOK */
+  romall(rx):o = 0x000000, l = 0x080000
+  vectors(r):o = 0x000000, l = 0x000100 
+}
+
+SECTIONS{
+
+  /* 割り込みベクタ */
+  .vectors : {
+    vector.o(.data)
+  } > vectors /** これで、vectors領域を使うってかんじになる **/
+
+
+...
+  /* BSS領域 */
+  .bss : {
+    _bss_start = . ;
+    *(.bss)
+    *(COMMON)
+    _ebss = . ;
+  } > data AT> rom 
+/** AT> は物理アドレスの指定。こう書くと、data領域に格納されるんだけど、 *
+ * 実際はRAMの上の領域を読み書きするような機械語になる */
+
+} /** end of SECTION */
+```
+
+このままではだめで、ROMに置かれた初期値をRAMへコピーする必要がある。
+
+### セクションと領域の違い
+
+* 領域 - MEMORYコマンドで定義した領域。
+* セクション - プログラムを領域に割り当てたもの。
+	
+
+
+### その他
+
+Flashに書き込むべきデータの書き込み先アドレスが，RAM上になってると ``Address is out of range. Skipping..`` みたいなエラーが出る．
+
+
