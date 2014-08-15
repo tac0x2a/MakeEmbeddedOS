@@ -23,7 +23,7 @@ H8WRITE_SERDEV = /dev/cu.PL2303-* #for Mac
 
 
 OBJS  = vector.o startup.o main.o
-OBJS += lib.o serial.o
+OBJS += lib.o serial.o xmodem.o
 
 TARGET = kzload
 
