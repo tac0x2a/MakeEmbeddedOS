@@ -110,6 +110,7 @@ char *strcpy(char *dest, const char *src){
 int strcmp(const char *s1, const char *s2){
 	int n1 = strlen(s1);
 	int n2 = strlen(s2);
+	if(n1 != n2) return -1;
 	return memcmp(s1, s2, n1 < n2 ? n1 : n2 );
 }
 
