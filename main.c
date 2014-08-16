@@ -85,7 +85,6 @@ int main(void) {
 
 		puts("kzload> ");
 		gets(command_buff);
-		puts("\nreceive complete.\n");
 
 		#define MATCH(command) (strcmp(command_buff,command) == 0)
 
