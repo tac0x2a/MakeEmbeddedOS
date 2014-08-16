@@ -70,7 +70,7 @@ static char* format_int2hex(char* dst, unsigned long value, int column){
 	}
 
 	int c = column -1;
-	while( value > 0 && c >= 0 ) {
+	while( c >= 0 ) {
 		dst[c] = "0123456789abcdef"[ value & 0xf ];
 		value >>= 4;
 		c--;
