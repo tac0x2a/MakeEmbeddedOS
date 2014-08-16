@@ -17,9 +17,9 @@
 */
 static int xmodem_wait(void) {
 	long cnt = 0;
-	while(!serial_is_send_enable(SERIAL_DEFAULT_DEVICE)){
+	while(!serial_is_recv_enable(SERIAL_DEFAULT_DEVICE)){
 		cnt++;
-		if( cnt > 2000000 ){
+		if( cnt > 20000 ){
 			cnt = 0;
 			serial_send_byte(SERIAL_DEFAULT_DEVICE, XMODEM_NAK);
 		}
@@ -49,7 +49,7 @@ static int xmodem_read_block(unsigned char block_id, char *buf){
 	unsigned char check_sum = 0;
 	int i = 0;
 	for( i = 0; i < XMODEM_BLOCK_SIZE; i++ ){
-		const char c = serial_recv_byte(SERIAL_DEFAULT_DEVICE);
+		const unsigned char c = serial_recv_byte(SERIAL_DEFAULT_DEVICE);
 		*(buf) = c;
 		buf++;
 		check_sum += c;
@@ -57,7 +57,7 @@ static int xmodem_read_block(unsigned char block_id, char *buf){
 
 	// チェックサムを反転したもの
 	const char check_sum_inv = serial_recv_byte(SERIAL_DEFAULT_DEVICE);
-	if( (check_sum ^ check_sum_inv) != 0xFF ){
+	if( (check_sum^check_sum_inv) != 0x00 ){
 		return -1;
 	}
 
@@ -71,34 +71,34 @@ static int xmodem_read_block(unsigned char block_id, char *buf){
 */
 long xmodem_recv(unsigned char *buff){
 
-	unsigned long r_block_cnt  = 1; //1はじまりのうほうがいいらしい
+	unsigned char r_block_cnt  = 1; //1はじまりのうほうがいいらしい
 	unsigned long r_total_size = 0;
 
 	while(1) {
 
 		// 受信準備出来たので送信要求を出す
-		xmodem_wait();
+		if(r_total_size <= 0)	xmodem_wait();
 
 		const char c = serial_recv_byte(SERIAL_DEFAULT_DEVICE);
-
 		if( c == XMODEM_CAN ) return -1; //キャンセル
 		if( c == XMODEM_EOT ) { //データ終端
 			serial_send_byte(SERIAL_DEFAULT_DEVICE, XMODEM_ACK);
 			return r_total_size;
 		}
-		if( c != XMODEM_SOH ) { // なんかおかしいのが来た
-			return -1;
-		}
 
-    // 1ブロック受信
-		const int received_byte = xmodem_read_block(r_block_cnt, &buff[r_total_size]);
+		if( c == XMODEM_SOH ) {
+			// 1ブロック受信
+			const int received_byte = xmodem_read_block(r_block_cnt, &buff[r_total_size]);
 
-		if(received_byte >= 0){ //受信できたっぽい
-			r_block_cnt++;
-			r_total_size += received_byte;
-			serial_send_byte(SERIAL_DEFAULT_DEVICE, XMODEM_ACK);
-		} else {// 受信失敗、再送要求
-			serial_send_byte(SERIAL_DEFAULT_DEVICE, XMODEM_NAK);
+			if(received_byte >= 0){ //受信できたっぽい
+				r_block_cnt++;
+				r_total_size += received_byte;
+				serial_send_byte(SERIAL_DEFAULT_DEVICE, XMODEM_ACK);
+			} else {// 受信失敗、再送要求
+				serial_send_byte(SERIAL_DEFAULT_DEVICE, XMODEM_NAK);
+			}
+		} else { // なんかおかしいのが来た
+			if( r_total_size > 0 ) return -1;
 		}
 
 	} // end of While
