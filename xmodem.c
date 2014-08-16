@@ -69,7 +69,7 @@ static int xmodem_read_block(unsigned char block_id, char *buf){
 	 受信失敗orキャンセル: -1
 	 受信成功            : 受信したデータサイズ[byte]
 */
-long xmodem_recv(char *buff){
+long xmodem_recv(unsigned char *buff){
 
 	unsigned long r_block_cnt  = 1; //1はじまりのうほうがいいらしい
 	unsigned long r_total_size = 0;

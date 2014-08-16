@@ -23,6 +23,32 @@ int puts(const char *str)
 	return 0;
 }
 
+/** 1文字受信 */
+unsigned char getc()
+{
+	unsigned char c = serial_recv_byte(SERIAL_DEFAULT_DEVICE);
+	if( c == '\r' ) c = '\n';
+	putc(c);
+	return c;
+}
+
+/** 文字列受信
+ * 文字列の長さを返す。
+ */
+int gets( char *dst){
+	int i = 0;
+	while(1){
+		char c = getc();
+		if( c == '\n') c = '\0';
+		dst[i] = c;
+		i++;
+
+		if( c == '\0' ) break;
+	}
+	return i - 1;
+}
+
+
 /*
 	 整数を指定した桁数の16進数の文字列へ変換する．
 	 dst:    出力先バッファ
