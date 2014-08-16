@@ -6,7 +6,7 @@
 static char* format_int2hex(char* dst, unsigned long value, int column); /* 整数を16進数表記へ変換する */
 
 /** 1文字送信  */
-int putc(unsigned char c)
+int putc(char c)
 {
 	if( c == '\n' ){
 		serial_send_byte(SERIAL_DEFAULT_DEVICE, '\r');
@@ -15,7 +15,7 @@ int putc(unsigned char c)
 }
 
 /** 文字列送信 */
-int puts(unsigned char *str)
+int puts(const char *str)
 {
 	while(*str){
 		putc(*(str++));
