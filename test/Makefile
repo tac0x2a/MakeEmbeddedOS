@@ -1,5 +1,6 @@
 TARGET = test
-OBJS  = test.o test_*.o unity_fixture.o unity.o
+OBJS   =  test.o unity_fixture.o unity.o
+OBJS   += test_lib.o
 
 CFLAGS = -Wall -std=c99
 CFLAGS = -std=c99
