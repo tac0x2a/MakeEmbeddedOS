@@ -6,7 +6,7 @@
 static char* format_int2hex(char* dst, unsigned long value, int column); /* 整数を16進数表記へ変換する */
 
 /** 1文字送信  */
-int putc(unsigned char c)
+int putc(char c)
 {
 	if( c == '\n' ){
 		serial_send_byte(SERIAL_DEFAULT_DEVICE, '\r');
@@ -15,13 +15,39 @@ int putc(unsigned char c)
 }
 
 /** 文字列送信 */
-int puts(unsigned char *str)
+int puts(const char *str)
 {
 	while(*str){
 		putc(*(str++));
 	}
 	return 0;
 }
+
+/** 1文字受信 */
+unsigned char getc()
+{
+	unsigned char c = serial_recv_byte(SERIAL_DEFAULT_DEVICE);
+	if( c == '\r' ) c = '\n';
+	putc(c);
+	return c;
+}
+
+/** 文字列受信
+ * 文字列の長さを返す。
+ */
+int gets( char *dst){
+	int i = 0;
+	while(1){
+		char c = getc();
+		if( c == '\n') c = '\0';
+		dst[i] = c;
+		i++;
+
+		if( c == '\0' ) break;
+	}
+	return i - 1;
+}
+
 
 /*
 	 整数を指定した桁数の16進数の文字列へ変換する．
@@ -44,7 +70,7 @@ static char* format_int2hex(char* dst, unsigned long value, int column){
 	}
 
 	int c = column -1;
-	while( value > 0 && c >= 0 ) {
+	while( c >= 0 ) {
 		dst[c] = "0123456789abcdef"[ value & 0xf ];
 		value >>= 4;
 		c--;
@@ -110,6 +136,7 @@ char *strcpy(char *dest, const char *src){
 int strcmp(const char *s1, const char *s2){
 	int n1 = strlen(s1);
 	int n2 = strlen(s2);
+	if(n1 != n2) return -1;
 	return memcmp(s1, s2, n1 < n2 ? n1 : n2 );
 }
 

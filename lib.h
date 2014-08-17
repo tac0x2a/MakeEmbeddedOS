@@ -3,9 +3,11 @@
 
 typedef long size_t;
 
-int putc(unsigned char c);   /** 1文字送信  */
-int puts(unsigned char *str);/** 文字列送信 */
+int putc(char c);   /** 1文字送信  */
+int puts(const char *str);/** 文字列送信 */
 
+unsigned char getc(void); /** 1文字受信 */
+int gets( char *dst); /** 文字列受信 */
 
 int putxval(unsigned long value, int column); /* 16進数で整数値を表示する */
 
