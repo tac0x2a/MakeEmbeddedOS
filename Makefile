@@ -1,4 +1,5 @@
-PREFIX  = ~/h8_tools
+#PREFIX  = ~/h8_tools
+PREFIX  = ./h8_tools/
 ARCH    = h8300-elf
 BINDIR  = $(PREFIX)/bin
 ADDNAME = $(ARCH)-
