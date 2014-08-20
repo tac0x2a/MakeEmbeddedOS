@@ -1,6 +1,7 @@
 #include "defines.h"
 #include "serial.h"
 #include "lib.h"
+#include "elf.h"
 #include "xmodem.h"
 
 static int init(){
@@ -97,6 +98,9 @@ int main(void) {
 			puts("\n");
 			dump_h((unsigned char*)&program_buffer, program_size);
 		}
+		else if(MATCH("run")) {
+      elf_load((unsigned char*)&program_buffer);
+	  }
 		else {
 			puts("unknown command.\n");
 		}
