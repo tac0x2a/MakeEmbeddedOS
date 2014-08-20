@@ -42,3 +42,66 @@ typedef struct  {
 	long flags;         //各種フラグ
 	long align;         //アライメント
 } ELF_PROGRAM_HEADDR;
+
+// ELFヘッダのバリデーション。不正な場合は -1, 正しい場合は 0 を返す。
+static int elf_check(ELF_HEADER *header){
+	if(header == NULL) return -1;
+
+	// check Magic Number.
+	if( memcmp(header->id.magic, "\x7f" "ELF", 4) != 0 ) return -1;
+
+	if(header->id.class   != 1) return -1; // Required ELF32.
+	if(header->id.format	!= 2) return -1; // Required Big endian.
+	if(header->id.version	!= 1) return -1; // Required version 1.
+	if(header->type				!= 2) return -1; // Required Executable file.
+	if(header->version		!= 1) return -1; // Required version 1.
+
+	// Is H8 ?
+	if(header->arch != 46 && header->arch != 47) return -1;
+
+	return 0; // Is correct.
+}
+
+// セグメント単位でのロード(プログラムヘッダの解析)
+static int elf_load_program(ELF_HEADER *header){
+	if(header == NULL) return -1;
+
+	for( int i = 0; i < header->program_header_num; i++ ){
+
+		// i番目のプログラムヘッダテーブルの先頭アドレス
+		const ELF_PROGRAM_HEADDR *program_header =
+			(char*)header +
+			header->program_header_offset +
+ 			header->program_header_size * i;
+
+		// ロード対象ではないセグメントは解析しない
+		if(program_header->type != 1) continue;
+
+		{ //TODO サンプルだよ！
+			putxval(program_header->offset,6);        puts(" ");
+			putxval(program_header->virtual_addr,8);  puts(" ");
+			putxval(program_header->physical_addr,8); puts(" ");
+			putxval(program_header->file_size,5);     puts(" ");
+			putxval(program_header->memory_size,5);   puts(" ");
+			putxval(program_header->flags,2);         puts(" ");
+			putxval(program_header->align,2);         puts("\n");
+		}
+
+	}
+
+	return 0;
+}
+
+
+// ELFフォーマットの解析
+int elf_load(char *buff){
+	if(buff == NULL) return -1;
+
+	const ELF_HEADER *header = (ELF_HEADER*)buff;
+	if( elf_check(header) < 0 ) return -1;
+
+	int res_load = elf_load_program(header);
+	if( res_load < 0 ) return -1;
+
+	return 0;
+}
