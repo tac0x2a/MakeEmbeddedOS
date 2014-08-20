@@ -15,11 +15,11 @@
 
 #undef NULL
 
-#include "../serial.h"
-#include "../serial.c"
-#include "../defines.h"
-#include "../lib.h"
-#include "../lib.c"
+#include "../bootloader/serial.h"
+#include "../bootloader/serial.c"
+#include "../bootloader/defines.h"
+#include "../bootloader/lib.h"
+#include "../bootloader/lib.c"
 
 TEST_GROUP(lib);
 TEST_SETUP(lib){}
