@@ -99,7 +99,14 @@ int main(void) {
       dump_h((unsigned char*)&program_buffer, program_size);
     }
     else if(MATCH("run")) {
-      elf_load((unsigned char*)&program_buffer);
+      const char *ep = elf_load((unsigned char*)&program_buffer);
+      const void (*entry_point)(void) = (void(*)(void))ep;
+
+      if( entry_point == NULL ){
+        puts("no entry_point.\n");
+      } else {
+        entry_point();
+      }
     }
     else {
       puts("unknown command.\n");
