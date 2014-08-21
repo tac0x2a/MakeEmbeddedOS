@@ -1,6 +1,6 @@
-#include "defines.h"
-#include "serial.h"
-#include "lib.h"
+#include <defines.h>
+#include <serial.h>
+#include <lib.h>
 #include "elf.h"
 #include "xmodem.h"
 

@@ -1,8 +1,9 @@
 #include "elf.h"
 
-#include "defines.h"
+#include <defines.h>
+#include <lib.h>
 #include "elf.h"
-#include "lib.h"
+
 
 // ELFヘッダ
 typedef struct {

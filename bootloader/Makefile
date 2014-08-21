@@ -22,7 +22,7 @@ H8WRITE = $(BINDIR)/kz_h8write021
 #H8WRITE_SERDEV = /dev/ttyUSB0
 H8WRITE_SERDEV = /dev/cu.PL2303-* #for Mac
 
-
+VPATH = src:../share/
 OBJS  = vector.o startup.o main.o
 OBJS += lib.o serial.o xmodem.o elf.o
 
@@ -31,6 +31,7 @@ TARGET = kzload
 CFLAGS = -Wall -mh -nostdinc -nostdlib -fno-builtin -std=c99
 #CFLAGS += -mint32 # intを32ビットにすると掛算／割算ができなくなる
 CFLAGS += -I.
+CFLAGS += -I../share/
 #CFLAGS += -g
 CFLAGS += -Os
 CFLAGS += -DKZLOAD

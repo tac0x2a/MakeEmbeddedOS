@@ -1,6 +1,6 @@
-#include "defines.h"
-#include "serial.h"
-#include "lib.h"
+#include <defines.h>
+#include <serial.h>
+#include <lib.h>
 #include "xmodem.h"
 
 #define XMODEM_SOH 0x01
