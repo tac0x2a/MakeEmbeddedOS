@@ -101,15 +101,15 @@ static int elf_load_program(ELF_HEADER *header){
 }
 
 
-// ELFフォーマットの解析
-int elf_load(char *buff){
-  if(buff == NULL) return -1;
+// ELFフォーマットの解析。成功したらエントリポイントのアドレスを返す。
+char *elf_load(char *buff){
+  if(buff == NULL) return NULL;
 
   const ELF_HEADER *header = (ELF_HEADER*)buff;
-  if( elf_check(header) < 0 ) return -1;
+  if( elf_check(header) < 0 ) return NULL;
 
   int res_load = elf_load_program(header);
-  if( res_load < 0 ) return -1;
+  if( res_load < 0 ) return NULL;
 
-  return 0;
+  return header->entry_point;
 }
