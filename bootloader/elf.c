@@ -1,9 +1,6 @@
-#include "elf.h"
-
 #include <defines.h>
 #include <lib.h>
 #include "elf.h"
-
 
 // ELFヘッダ
 typedef struct {
@@ -87,6 +84,16 @@ static int elf_load_program(ELF_HEADER *header){
       putxval(program_header->flags,2);         puts(" ");
       putxval(program_header->align,2);         puts("\n");
     }
+
+    // 物理アドレスにセグメントをロード
+    memcpy((char*)program_header->physical_addr,
+           (char*)program_header->offset,
+           program_header->file_size);
+
+    // "ELFファイル内のサイズ < メモリ上のサイズ" なところを0で埋める
+    memset( (char*)(program_header->physical_addr + program_header->file_size),
+            0x00,
+            program_header->memory_size - program_header->file_size);
 
   } // end of for segments.
 
