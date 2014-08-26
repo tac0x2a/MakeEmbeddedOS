@@ -105,6 +105,7 @@ int main(void) {
       if( entry_point == NULL ){
         puts("no entry_point.\n");
       } else {
+        puts("start at 0x"); putxval(entry_point, 6); puts("\n");
         entry_point();
       }
     }
