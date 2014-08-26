@@ -1,0 +1,57 @@
+OUTPUT_FORMAT("elf32-h8300")
+OUTPUT_ARCH(h8300h)
+ENTRY("_start")
+
+MEMORY
+{
+		ramall(rwx): o = 0xffbf20, l = 0x004000 /* 16KB */
+    ram(rwx)   : o = 0xffc020, l = 0x003f00 /* ELFヘッダとプログラムヘッダもロードされるので空きを作る */
+		stack(rw)  : o = 0xffff00, l = 0x000000 /* スタックのデフォルトサイズは0 */
+}
+
+/* メモリマップ */
+SECTIONS
+{
+				/* テキスト領域
+				 * コンパイル後の機械語コードが配置される
+				 */
+				.text : {
+							_text_start = . ;
+							*(.text)
+							_etext = . ;
+				} > ram
+
+				/* read-only データ */
+				.rodata : {
+								_rodata_start = . ;
+								*(.strings)
+								*(.rodata)
+								*(.rodata.*)
+								_erodata = . ;
+				} > ram
+
+				/* データ領域
+				 * 変数などが配置される
+				 */
+				.data : {
+							_data_start = . ;
+							*(.data)
+							_edata = . ;
+				} > ram
+
+				/* BSS領域 */
+				.bss : {
+						 _bss_start = . ;
+						 *(.bss)
+						 *(COMMON)
+						 _ebss = . ;
+				} > ram
+
+				.  = ALIGN(4); /* ロケーションカウンタを4バイト境界にする */
+				_end = . ; /* セクションの終端の意味 */
+
+				.stack : {
+								_stack = .;
+				} > stack
+
+} /* end of SECTIONS */
