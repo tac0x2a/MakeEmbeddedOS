@@ -87,7 +87,7 @@ static int elf_load_program(ELF_HEADER *header){
 
     // 物理アドレスにセグメントをロード
     memcpy((char*)program_header->physical_addr,
-           (char*)program_header->offset,
+           (char*)header + program_header->offset,
            program_header->file_size);
 
     // "ELFファイル内のサイズ < メモリ上のサイズ" なところを0で埋める
