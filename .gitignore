@@ -2,6 +2,8 @@
 kzload
 *.elf
 *.mot
+*#*#
+.*
 GPATH
 GRTAGS
 GTAGS
