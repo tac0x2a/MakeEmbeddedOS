@@ -39,12 +39,10 @@ LFLAGS = -static -T ld.scr -L.
 .SUFFIXES: .c .o
 .SUFFIXES: .s .o
 
-all :		$(TARGET)
+all :		$(TARGET).elf
 
-$(TARGET) :	$(OBJS)
-		$(CC) $(OBJS) -o $(TARGET) $(CFLAGS) $(LFLAGS)
-		cp $(TARGET) $(TARGET).elf
-		$(STRIP) $(TARGET)
+$(TARGET).elf :	$(OBJS)
+		$(CC) $(OBJS) -o $(TARGET).elf $(CFLAGS) $(LFLAGS)
 
 .c.o :		$<
 		$(CC) -c $(CFLAGS) $<
